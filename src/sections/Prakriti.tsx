@@ -1,3 +1,4 @@
+import Backdrop from '@/components/Backdrop'
 import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { byId, inr, type ProductId } from '@/data/site'
@@ -50,7 +51,8 @@ export default function Prakriti() {
   const kitTotal = r ? r.kit.reduce((s, id) => s + (byId(id).price ?? 0), 0) : 0
 
   return (
-    <section id="prakriti" data-nav="dark" className="relative overflow-hidden bg-khadiya px-5 py-[9vh] md:px-10 md:py-[16vh]">
+    <section id="prakriti" data-nav="dark" className="khadiya-wall isolate relative overflow-hidden px-5 py-[9vh] md:px-10 md:py-[16vh]">
+      <Backdrop tone="light" seed={9} />
       <div className="mx-auto grid max-w-[1400px] gap-12 md:grid-cols-[0.9fr_1.1fr]">
         <div>
           <p className="t-mono text-[11px] text-geru">07 · Know your Prakriti · प्रकृति परीक्षण</p>

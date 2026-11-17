@@ -116,7 +116,7 @@ const FrameSequence = forwardRef<FrameSequenceHandle, Props>(function FrameSeque
     if (!st.dragging) return
     const dx = e.clientX - st.lastX
     st.lastX = e.clientX
-    const d = -dx / 420
+    const d = dx / 420
     st.spin += d
     st.vel = d * 60
   }

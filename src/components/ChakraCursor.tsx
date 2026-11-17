@@ -35,7 +35,7 @@ export default function ChakraCursor() {
 
     const burst = (x: number, y: number, n: number, ring: boolean) => {
       for (let i = 0; i < n; i++) {
-        const a = (i / n) * Math.PI * 2 + Math.random() * 0.4, sp = 120 + Math.random() * 220
+        const a = (i / n) * Math.PI * 2 + Math.random() * 0.4, sp = (ring ? 70 : 120) + Math.random() * (ring ? 110 : 220)
         parts.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 60, life: 0, max: 0.7 + Math.random() * 0.5, r: 3 + Math.random() * 4, rot: a, vr: (Math.random() - 0.5) * 10, c: PETAL_COLORS[i % PETAL_COLORS.length], kind: 'petal' })
       }
       if (ring) parts.push({ x, y, vx: 0, vy: 0, life: 0, max: 0.65, r: 6, rot: 0, vr: 6, c: '#faf6ee', kind: 'ring' })
@@ -110,11 +110,19 @@ export default function ChakraCursor() {
       classify(e.target as HTMLElement)
       wake()
     }
+    // touch: bloom only on a genuine TAP of something tappable — never while scrolling
+    let tap: { x: number; y: number; t: number; el: Element | null } | null = null
     const down = (e: PointerEvent) => {
-      if (e.pointerType === 'mouse') { pos.ts = 0.78; burst(e.clientX, e.clientY, 10, false) }
-      else burst(e.clientX, e.clientY, 9, true) // tap bloom on phones
+      if (e.pointerType === 'mouse') { pos.ts = 0.78; burst(e.clientX, e.clientY, 10, false); return }
+      tap = { x: e.clientX, y: e.clientY, t: performance.now(), el: (e.target as Element)?.closest?.('a,button,[data-cursor]') ?? null }
     }
-    const up = () => { pos.ts = 1 }
+    const up = (e: PointerEvent) => {
+      pos.ts = 1
+      if (e.pointerType === 'mouse' || !tap) return
+      const moved = Math.hypot(e.clientX - tap.x, e.clientY - tap.y)
+      if (tap.el && moved < 10 && performance.now() - tap.t < 350) burst(e.clientX, e.clientY, 6, true)
+      tap = null
+    }
     window.addEventListener('pointermove', move, { passive: true })
     window.addEventListener('pointerdown', down, { passive: true })
     window.addEventListener('pointerup', up, { passive: true })

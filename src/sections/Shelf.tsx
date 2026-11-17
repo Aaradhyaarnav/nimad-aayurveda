@@ -1,3 +1,4 @@
+import Backdrop from '@/components/Backdrop'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import FrameSequence, { SEQ } from '@/components/FrameSequence'
 import { BRAND, PRODUCTS, inr, waLink, type Product } from '@/data/site'
@@ -97,7 +98,7 @@ function Niche({ p, active, onActive }: { p: Product; active: boolean; onActive:
               ))}
             </div>
           ) : (
-            <div ref={visual} className="niche-product absolute inset-x-[1%] bottom-[8%] top-[9%]">
+            <div ref={visual} className="niche-product absolute inset-x-[9%] bottom-[8%] top-[17%]">
               <span className="absolute inset-x-[22%] bottom-[1%] h-[6%] rounded-[50%] bg-black/55 blur-md" />
               <FrameSequence name={p.id} frames={SEQ[p.id as keyof typeof SEQ]} fallback={p.render} autoplay={active ? 0.24 : 0.06} draggable className="h-full w-full" />
             </div>
@@ -156,7 +157,8 @@ export default function Shelf() {
 
   const title = 'Nimad ka aala'
   return (
-    <section ref={root} id="shelf" className="geru-wall relative overflow-hidden py-[9vh] text-khadiya md:py-[14vh]">
+    <section ref={root} id="shelf" className="geru-wall isolate relative overflow-hidden py-[9vh] text-khadiya md:py-[14vh]">
+      <Backdrop tone="dark" seed={6} />
       <div className="px-5 md:px-10">
         <p className="t-mono text-[10px] text-khadiya/70 md:text-[11px]">The full shelf · आला</p>
         <h3 className="shelf-title t-display mt-3 overflow-hidden text-[clamp(48px,8vw,140px)] leading-none">

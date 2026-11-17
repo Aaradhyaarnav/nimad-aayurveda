@@ -1,3 +1,4 @@
+import Mandana from '@/components/Mandana'
 import { useLayoutEffect, useRef, useState, type TouchEvent } from 'react'
 import FrameSequence, { SEQ, type FrameSequenceHandle } from '@/components/FrameSequence'
 import { LIVE, byId, inr, type Product } from '@/data/site'
@@ -15,6 +16,7 @@ export default function RitualWheel() {
   const root = useRef<HTMLElement>(null)
   const wheel = useRef<HTMLDivElement>(null)
   const ring = useRef<SVGGElement>(null)
+  const focus = useRef<HTMLDivElement>(null)
   const seqs = useRef<(FrameSequenceHandle | null)[]>([])
   const st = useRef<ScrollTrigger | null>(null)
   const [active, setActive] = useState(0)
@@ -31,7 +33,7 @@ export default function RitualWheel() {
       let pos = 0, W = 0, H = 0, R = 0, cx = 0, cy = 0, base = 0, desk = false
       const measure = () => {
         W = pin.clientWidth; H = pin.clientHeight; desk = W >= 900 && W > H
-        if (desk) { R = Math.min(H * 0.66, 620); cx = W * 0.66 + R; cy = H * 0.52; base = 180 }
+        if (desk) { R = Math.min(Math.max(H * 0.66, W * 0.38), 700); cx = W * 0.66 + R; cy = H * 0.52; base = 180 }
         else { R = Math.min(W * 1.05, H * 0.6); cx = W / 2; cy = H * 0.64 + R; base = -90 }
         hub.style.transform = `translate3d(${cx}px, ${cy}px, 0)`
         hub.style.setProperty('--r', `${R}px`)
@@ -44,6 +46,7 @@ export default function RitualWheel() {
       const layout = () => {
         const rot = -pos * STEP
         if (ring.current) ring.current.style.transform = `rotate(${rot}deg)`
+        if (focus.current) focus.current.style.transform = `translate(-50%, -50%) rotate(${-rot * 1.5}deg)`
         if (wheel.current) wheel.current.style.transform = `rotate(${rot}deg)`
         items.forEach((el, i) => {
           const th = ((base + (i - pos) * STEP) * Math.PI) / 180
@@ -95,6 +98,12 @@ export default function RitualWheel() {
       <div className="rw-pin relative h-svh overflow-hidden bg-geru-deep" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
         <div className="geru-wall absolute inset-0 opacity-70 mix-blend-multiply" />
         <div className="absolute inset-0 transition-[background] duration-1000" style={{ background: `radial-gradient(55% 55% at var(--gx, 50%) var(--gy, 78%), ${p.accent}55, transparent 70%)` }} />
+
+        {/* detailed chakra at the active spot — behind every product as it arrives */}
+        <div ref={focus} className="pointer-events-none absolute aspect-square w-[min(118vw,96svh)] text-[#ffd39a]/[0.24] [@media(min-aspect-ratio:5/4)]:w-[min(64vw,104svh)]" style={{ left: 'var(--gx, 50%)', top: 'var(--gy, 64%)', transform: 'translate(-50%, -50%)', willChange: 'transform' }}>
+          <Mandana size={800} rings={8} seed={7} strokeWidth={0.8} className="h-full w-full" />
+        </div>
+        <div className="pointer-events-none absolute aspect-square w-[min(70vw,56svh)] rounded-full border border-[#ffd39a]/15" style={{ left: 'var(--gx, 50%)', top: 'var(--gy, 64%)', transform: 'translate(-50%, -50%)', boxShadow: 'inset 0 0 80px rgba(255,170,100,.12)' }} />
 
         {/* info */}
         <div className="relative z-20 mx-auto flex max-w-3xl flex-col items-center px-5 pt-[12svh] text-center min-[900px]:mx-0 min-[900px]:h-full min-[900px]:max-w-[44vw] min-[900px]:items-start min-[900px]:justify-center min-[900px]:pl-[6vw] min-[900px]:pt-0 min-[900px]:text-left">

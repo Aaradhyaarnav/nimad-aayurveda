@@ -1,3 +1,4 @@
+import Backdrop from '@/components/Backdrop'
 import { useLayoutEffect, useRef } from 'react'
 import { gsap, ScrollTrigger, SplitText, reduced } from '@/lib/motion'
 import { MandanaBorder } from '@/components/Mandana'
@@ -19,7 +20,8 @@ export function Manifesto() {
     return () => ctx.revert()
   }, [])
   return (
-    <section ref={root} data-nav="dark" className="khadiya-wall relative px-5 py-[9vh] md:px-10 md:py-[18vh]">
+    <section ref={root} data-nav="dark" className="khadiya-wall isolate relative overflow-hidden px-5 py-[9vh] md:px-10 md:py-[18vh]">
+      <Backdrop tone="light" seed={2} />
       <MandanaBorder className="mf-border mb-8 h-6 w-full text-geru/60 md:mb-16" count={36} />
       <div className="mx-auto grid max-w-[1400px] gap-10 md:grid-cols-[220px_1fr]">
         <div className="t-mono text-[11px] text-geru">

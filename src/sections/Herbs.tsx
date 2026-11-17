@@ -1,3 +1,4 @@
+import Backdrop from '@/components/Backdrop'
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import SpatialCardCarousel, { type SpatialCardItem } from '@/components/ui/spatial-card-carousel'
 import { gsap, SplitText, reduced } from '@/lib/motion'
@@ -70,7 +71,8 @@ export default function Herbs() {
   }, [])
   const h = HERBS[idx]
   return (
-    <section id="herbs" ref={root} data-nav="dark" className="khadiya-wall relative overflow-hidden px-5 pb-10 pt-[9vh] md:px-10 md:pb-16 md:pt-[16vh]">
+    <section id="herbs" ref={root} data-nav="dark" className="khadiya-wall isolate relative overflow-hidden px-5 pb-10 pt-[9vh] md:px-10 md:pb-16 md:pt-[16vh]">
+      <Backdrop tone="light" seed={5} flip />
       <div className="mx-auto grid max-w-[1400px] items-end gap-8 md:grid-cols-[1fr_auto]">
         <div>
           <p className="t-mono text-[11px] text-geru">03 · Nimad ki jadi-booti · जड़ी-बूटी</p>

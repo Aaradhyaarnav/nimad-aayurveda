@@ -1,3 +1,4 @@
+import Mandana from '@/components/Mandana'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { LIVE, inr, type Product } from '@/data/site'
 import { gsap, ScrollTrigger, reduced } from '@/lib/motion'
@@ -20,6 +21,7 @@ function Chapter({ p, i }: { p: Product; i: number }) {
     <article className="chapter relative grid items-center gap-4 px-5 py-10 md:min-h-svh md:grid-cols-2 md:gap-8 md:px-10 md:py-24" data-tint={p.tint} id={`product-${p.id}`}>
       <div className="relative flex h-[46svh] items-center justify-center md:sticky md:top-0 md:h-svh">
         <span aria-hidden="true" className="t-deva pointer-events-none absolute select-none whitespace-nowrap text-[30vw] leading-none text-ink/[0.05] md:text-[17vw]">{p.hindi.split(' ')[0]}</span>
+        <div className="pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[min(110%,92svh)] -translate-x-1/2 -translate-y-1/2 text-ink/[0.06]" aria-hidden><Mandana size={800} rings={7} seed={i + 3} strokeWidth={0.8} className="ch-medallion h-full w-full" /></div>
         <div className="ch-visual relative h-full w-full">
           <span className="absolute inset-x-[30%] bottom-[5%] h-[5%] rounded-[50%] bg-geru-ink/30 blur-xl" />
           <FrameSequence name={p.id} frames={SEQ[p.id as keyof typeof SEQ]} fallback={p.render} draggable autoplay={0.05} className="absolute inset-0 m-auto h-[90%] w-full" />
@@ -85,6 +87,7 @@ export default function Products() {
         })
         if (reduced) return
         gsap.fromTo(ch.querySelector('.ch-visual'), { yPercent: 18, rotate: -6, scale: 0.86 }, { yPercent: -10, rotate: 4, scale: 1, ease: 'none', scrollTrigger: { trigger: ch, start: 'top bottom', end: 'bottom top', scrub: true } })
+        gsap.to(ch.querySelector('.ch-medallion'), { rotate: 120, ease: 'none', scrollTrigger: { trigger: ch, start: 'top bottom', end: 'bottom top', scrub: true } })
         gsap.from(ch.querySelectorAll('.ch-copy > *'), { y: 40, opacity: 0, duration: 1, stagger: 0.06, ease: 'expo.out', scrollTrigger: { trigger: ch, start: 'top 65%' } })
       })
     }, root)

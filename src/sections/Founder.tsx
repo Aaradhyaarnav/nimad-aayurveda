@@ -1,3 +1,4 @@
+import Backdrop from '@/components/Backdrop'
 import { useLayoutEffect, useRef } from 'react'
 import { BRAND } from '@/data/site'
 import { gsap, ScrollTrigger, reduced } from '@/lib/motion'
@@ -41,7 +42,8 @@ export default function Founder() {
 
   return (
     <section id="founder" ref={root} data-nav="dark" className="relative">
-      <div className="nb-pin khadiya-wall relative grid h-svh grid-rows-[auto_1fr] items-center gap-4 overflow-hidden px-5 pb-6 pt-20 md:grid-cols-[0.9fr_1.1fr] md:grid-rows-1 md:gap-10 md:px-10 md:pt-0">
+      <div className="nb-pin khadiya-wall isolate relative grid h-svh grid-rows-[auto_1fr] items-center gap-4 overflow-hidden px-5 pb-6 pt-20 md:grid-cols-[0.9fr_1.1fr] md:grid-rows-1 md:gap-10 md:px-10 md:pt-0">
+        <Backdrop tone="light" seed={11} flip borders={false} />
         <div className="relative z-10">
           <p className="t-mono text-[11px] text-geru">08 · The founder · संस्थापक</p>
           <h2 className="t-display mt-2 text-[clamp(34px,6vw,104px)] text-ink md:mt-4">Ajay Sen writes it <em className="text-geru">by hand</em> first.</h2>
